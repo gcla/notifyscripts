@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# https://newfivefour.com/unix-urlencode-urldecode-command-line-bash.html
+urlencode() {
+    # urlencode <string>
+    local length="${#1}"
+    for (( i = 0; i < length; i++ )); do
+        local c="${1:i:1}"
+        case $c in
+            [a-zA-Z0-9.~_-]) printf "$c" ;;
+            *) printf '%%%02X' "'$c"
+        esac
+    done
+}
+
+urldecode() {
+    # urldecode <string>
+
+    local url_encoded="${1//+/ }"
+    printf '%b' "${url_encoded//%/\\x}"
+}
+
+if test $# -lt 1 || test $# -gt 2 ; then
+    echo "Please provide a title and optionally a message"
+    exit 1
+fi
+
+TITLE="$1"
+MESSAGE="$2"
+if [ "$MESSAGE" = "" ] ; then
+    MESSAGE="$TITLE"
+    TITLE="Linux message"
+fi
+
+TITLE=$(urlencode "$TITLE")
+MESSAGE=$(urlencode "$MESSAGE")
+
+exec curl "https://api.simplepush.io/send/u4MFDp/${TITLE}/${MESSAGE}"

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+exec notifywhen "started in" "XMC ready" "$@"

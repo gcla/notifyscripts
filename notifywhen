@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if test $# -lt 3 ; then
+    echo "Please provide a search string, a message, and a command to run."
+    exit 1
+fi
+
+SEARCH="$1"
+shift
+
+MESSAGE="$1"
+shift
+
+CMD="$@"
+
+exec 3>&1
+
+exec unbuffer $CMD | tee /dev/fd/3 | { grep -m 1 "$SEARCH" > /dev/null && notifyme "$MESSAGE" && sleep 999h; } 1>&3

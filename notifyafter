@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+CMD="$@"
+
+"$@"
+
+if [ $? -eq 0 ]; then
+    echo SUCCESS
+    notifyme Success "$CMD" > /dev/null 2>&1
+else
+    echo FAILED
+    notifyme Failed "$CMD" > /dev/null 2>&1
+fi
