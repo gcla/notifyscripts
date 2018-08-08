@@ -35,4 +35,4 @@ fi
 TITLE=$(urlencode "$TITLE")
 MESSAGE=$(urlencode "$MESSAGE")
 
-exec curl "https://api.simplepush.io/send/u4MFDp/${TITLE}/${MESSAGE}"
+exec curl "https://api.simplepush.io/send/${SIMPLEPUSH_TOKEN}/${TITLE}/${MESSAGE}"
