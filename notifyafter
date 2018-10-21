@@ -2,12 +2,16 @@
 
 CMD="$@"
 
+START=$(date +%s)
 "$@"
+END=$(date +%s)
+SECS=$((END-START))
+TM=$(printf '%dm%ds\n' $(($SECS%3600/60)) $(($SECS%60)))
 
 if [ $? -eq 0 ]; then
     echo SUCCESS
-    notifyme Success "$CMD" > /dev/null 2>&1
+    notifyme Success "$CMD"$'\n'"(${TM})" > /dev/null 2>&1
 else
     echo FAILED
-    notifyme Failed "$CMD" > /dev/null 2>&1
+    notifyme Failed "$CMD"$'\n'"(${TM})" > /dev/null 2>&1
 fi
